@@ -21,8 +21,8 @@ import net.minecraft.util.collection.DefaultedList;
  * @author Sollace
  */
 @Mixin(
-    value = ScreenHandler.class,
-    priority = 2000 // run after other mods
+	value = ScreenHandler.class,
+	priority = 2000 // run after other mods
 )
 abstract class ScreenHandlerMixin {
 	@Nullable
@@ -46,7 +46,7 @@ abstract class ScreenHandlerMixin {
 					value = "INVOKE",
 					target = "Lnet/minecraft/screen/slot/Slot;getMaxItemCount()I"
 			),
-            require = 0
+			require = 0
 	)
 	// redirect slot.getMaxItemCount() to stack aware version
 	private int onGetMaxItemCount(Slot sender, ItemStack stack) {
@@ -59,7 +59,7 @@ abstract class ScreenHandlerMixin {
 					target = "Lnet/minecraft/item/ItemStack;isEmpty()Z",
 					ordinal = 1
 			),
-            require = 0
+			require = 0
 	)
 	// redirect "if (!itemStack.isEmpty() && ItemStack.canCombine(stack, itemStack))" -> "if (!canNotInsert(itemStack, slot) && ItemStack.canCombine(stack, itemStack))"
 	private boolean canNotInsert(ItemStack sender) {
@@ -67,9 +67,9 @@ abstract class ScreenHandlerMixin {
 	}
 
 	private static boolean mustChangeBehaviour(Slot slot) {
-	    // avoid changing vanilla behaviour
-	    // TODO: consider adding a config so people can choose whether they want this globally enabled or not
-	    //       as it would very likely fix a number of vanilla bugs
-	    return slot instanceof TrinketSlot;
+		// avoid changing vanilla behaviour
+		// TODO: consider adding a config so people can choose whether they want this globally enabled or not
+		//	   as it would very likely fix a number of vanilla bugs
+		return slot instanceof TrinketSlot;
 	}
 }
