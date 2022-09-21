@@ -96,8 +96,8 @@ public class TrinketInventory implements Inventory {
 		SlotReference ref = new SlotReference(this, slot);
 
 		int max = Math.min(
-				TrinketsApi.getTrinket(existingStack.getItem()).getMaxCount(existingStack, ref),
-				TrinketsApi.getTrinket(stack.getItem()).getMaxCount(stack, ref)
+				existingStack.isEmpty() ? 64 : TrinketsApi.getTrinket(existingStack.getItem()).getMaxCount(existingStack, ref),
+				stack.isEmpty() ? 64 : TrinketsApi.getTrinket(stack.getItem()).getMaxCount(stack, ref)
 		);
 
 		int combinedCount = stack.getCount();
