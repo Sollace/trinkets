@@ -66,6 +66,16 @@ abstract class ScreenHandlerMixin {
 		return sender.isEmpty() || (mustChangeBehaviour(currentSlot) && (sender.getCount() + currentSlot.getStack().getCount()) >= currentSlot.getMaxItemCount(sender));
 	}
 
+	@Redirect(method = "canInsertItemIntoSlot",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/item/ItemStack;getMaxCount()I"
+			)
+	)
+	private static int onCanInsertItemIntoSlot(ItemStack sender, @Nullable Slot slot) {
+		return mustChangeBehaviour(slot) ? slot.getMaxItemCount(sender) : sender.getMaxCount();
+	}
+
 	private static boolean mustChangeBehaviour(Slot slot) {
 		// avoid changing vanilla behaviour
 		// TODO: consider adding a config so people can choose whether they want this globally enabled or not
