@@ -91,6 +91,25 @@ public class TrinketInventory implements Inventory {
 	}
 
 	@Override
+	public boolean isValid(int slot, ItemStack stack) {
+		ItemStack existingStack = getStack(slot);
+		SlotReference ref = new SlotReference(this, slot);
+
+		int max = Math.min(
+				TrinketsApi.getTrinket(existingStack.getItem()).getMaxCount(existingStack, ref),
+				TrinketsApi.getTrinket(stack.getItem()).getMaxCount(stack, ref)
+		);
+
+		int combinedCount = stack.getCount();
+
+		if (ItemStack.canCombine(existingStack, stack)) {
+			combinedCount += existingStack.getCount();
+		}
+
+		return combinedCount <= max;
+	}
+
+	@Override
 	public void markDirty() {
 		// NO-OP
 	}
